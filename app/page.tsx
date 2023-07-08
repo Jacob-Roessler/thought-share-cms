@@ -17,7 +17,7 @@ export default async function Home() {
         <div className="lg:col-span-4 col-span-1 ">
           <div className="lg:sticky relative top-0 my-3">
             <PostWidget posts={posts} />
-            <Categories posts={posts} />
+            <Categories />
           </div>
         </div>
       </div>
