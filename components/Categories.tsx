@@ -5,7 +5,6 @@ import { getCategories } from '@/services';
 
 const Categories = async () => {
   const categories = await getCategories();
-  console.log(categories);
   return (
     <div className="mt-2 px-10 py-10 bg-base-100 rounded-lg shadow-xl">
       Categories

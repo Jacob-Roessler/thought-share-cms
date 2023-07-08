@@ -3,7 +3,6 @@ import { PostCard } from '@/components';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const posts = await getCategoryPosts(params.slug);
-  console.log(posts);
   return (
     <div className="container mx-auto">
       <div className="flex flex-col gap-1">
