@@ -46,7 +46,7 @@ const Header = () => {
               </li>
               {categories.map((category, index) => (
                 <li key={index}>
-                  <Link href={`/category/${category.slug}`}>
+                  <Link href={`/categories/${category.slug}`}>
                     <span className=" text-white font-semibold">{category.name}</span>
                   </Link>
                 </li>
@@ -67,7 +67,7 @@ const Header = () => {
           </li>
           {categories.map((category, index) => (
             <li key={index}>
-              <Link href={`/category/${category.slug}`}>
+              <Link href={`/categories/${category.slug}`}>
                 <span className=" text-white font-semibold">{category.name}</span>
               </Link>
             </li>
