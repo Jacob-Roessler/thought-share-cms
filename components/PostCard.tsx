@@ -5,17 +5,15 @@ import Image from 'next/image';
 import { Post } from '@/types/Post';
 
 const PostCard = ({ post }: { post: Post }) => {
-  let aspect_ratio = (post.featuredImage.height / post.featuredImage.width) * 100;
-
   return (
-    <div className="card card-bordered lg:card-side bg-base-100 shadow-xl my-3">
-      <figure className={`${aspect_ratio > 60 ? 'md:max-w-sm' : 'md:max-w-md'}`}>
+    <div className="card card-bordered  bg-base-100 shadow-xl my-3">
+      <figure className="bg-black h-[375px]">
         <Image
-          src={post.featuredImage.url}
-          width={post.featuredImage.width}
-          height={post.featuredImage.height}
-          alt={post.featuredImage.fileName}
-          className=""
+          src={post.featuredImage?.url}
+          width={post.featuredImage?.width}
+          height={post.featuredImage?.height}
+          alt={post.featuredImage?.fileName}
+          className="max-w-full"
         />
       </figure>
       <div className="card-body">

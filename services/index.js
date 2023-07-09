@@ -49,6 +49,7 @@ export const getPosts = async () => {
             categories {
               name
               slug
+              classification
             }
           }
         }
@@ -91,6 +92,7 @@ export const getPost = async (slug) => {
         categories {
           name
           slug
+          classification
         }
       }
     }
@@ -107,6 +109,7 @@ export const getCategories = async () => {
         id
         name
         slug
+        classification
         posts(orderBy: publishedAt_ASC) {
           id
         }
@@ -149,6 +152,7 @@ export const getCategoryPosts = async (slug) => {
         categories {
           name
           slug
+          classification
         }
       }
     }

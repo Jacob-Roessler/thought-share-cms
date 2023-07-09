@@ -1,15 +1,7 @@
+import { Author } from './Author';
+import { Category } from './Category';
 type Post = {
-  author: {
-    bio: string | null;
-    name: string;
-    id: string;
-    photo: {
-      url: string;
-      fileName: string;
-      width: number;
-      height: number;
-    };
-  };
+  author: Author;
   createdAt: string;
   slug: string;
   title: string;
@@ -23,12 +15,7 @@ type Post = {
     width: number;
     height: number;
   };
-  categories: [
-    {
-      name: string;
-      slug: string;
-    }
-  ];
+  categories: [Category];
 };
 
 export type { Post };
