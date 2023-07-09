@@ -1,9 +1,9 @@
 import { gql } from 'graphql-request';
-const grahpqlAPIToken = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
+const grahpqlAPIToken = process.env.CONTENTFULL_TOKEN;
 const space_id = process.env.SPACE_ID;
 const envrionment_id = process.env.ENVIRONMENT_ID;
 
-const cacheTime = 0;
+const cacheTime = 360;
 
 const makeRequest = async (query, revalidate_seconds, variables = {}) => {
   const response = await fetch(
