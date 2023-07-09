@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <main className="container mx-auto mb-8 ">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-2 col-span-1">
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-2 col-span-1">
           {posts?.map((post: any, index: number) => (
             <PostCard key={index} post={post.node} />
           ))}
