@@ -1,19 +1,26 @@
 import { gql } from 'graphql-request';
-const grahpqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
-const cacheTime = 900;
+const grahpqlAPIToken = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
+const space_id = process.env.SPACE_ID;
+const envrionment_id = process.env.ENVIRONMENT_ID;
+
+const cacheTime = 0;
 
 const makeRequest = async (query, revalidate_seconds, variables = {}) => {
-  const response = await fetch(grahpqlAPI, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-    next: { revalidate: revalidate_seconds },
-  });
+  const response = await fetch(
+    `https://graphql.contentful.com/content/v1/spaces/${space_id}/environments/${envrionment_id}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${grahpqlAPIToken}`,
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+      next: { revalidate: revalidate_seconds },
+    }
+  );
 
   const json = await response.json();
   return json.data;
@@ -21,32 +28,36 @@ const makeRequest = async (query, revalidate_seconds, variables = {}) => {
 
 export const getPosts = async () => {
   const query = gql`
-    query GetAllPosts {
-      postsConnection(orderBy: createdAt_DESC) {
-        edges {
-          node {
-            author {
-              bio
+    query getPosts {
+      postCollection {
+        items {
+          sys {
+            firstPublishedAt
+          }
+          title
+          slug
+          excerpt
+          featuredImage {
+            url
+            fileName
+            width
+            height
+          }
+          authorCollection(limit: 3) {
+            items {
               name
-              id
-              photo {
+              slug
+              bio
+              avatar {
                 url
                 fileName
                 width
                 height
               }
             }
-            createdAt
-            slug
-            title
-            excerpt
-            featuredImage {
-              url
-              fileName
-              width
-              height
-            }
-            categories {
+          }
+          categoriesCollection(limit: 10) {
+            items {
               name
               slug
               classification
@@ -58,68 +69,112 @@ export const getPosts = async () => {
   `;
 
   const result = await makeRequest(query, cacheTime);
-  return result.postsConnection.edges;
+  return result.postCollection.items;
 };
 
 export const getPost = async (slug) => {
   const query = gql`
-    query GetPostDetails($slug: String!) {
-      post(where: { slug: $slug }) {
-        author {
-          bio
-          name
-          id
-          photo {
+    query getPostDetails($slug: String!) {
+      postCollection(limit: 1, where: { slug: $slug }) {
+        items {
+          sys {
+            firstPublishedAt
+          }
+          title
+          slug
+          excerpt
+          content {
+            json
+            links {
+              entries {
+                inline {
+                  sys {
+                    id
+                  }
+                  __typename
+                  ... on Post {
+                    title
+                    slug
+                  }
+                }
+                block {
+                  sys {
+                    id
+                  }
+                }
+              }
+              assets {
+                block {
+                  sys {
+                    id
+                  }
+                  url
+                  title
+                  width
+                  height
+                  description
+                }
+              }
+            }
+          }
+          featuredImage {
             url
             fileName
             width
             height
           }
-        }
-        createdAt
-        slug
-        title
-        excerpt
-        content {
-          html
-        }
-        featuredImage {
-          url
-          fileName
-          width
-          height
-        }
-        categories {
-          name
-          slug
-          classification
+          authorCollection(limit: 3) {
+            items {
+              name
+              slug
+              bio
+              avatar {
+                url
+                fileName
+                width
+                height
+              }
+            }
+          }
+          categoriesCollection(limit: 10) {
+            items {
+              name
+              slug
+              classification
+            }
+          }
         }
       }
     }
   `;
 
   const result = await makeRequest(query, cacheTime, { slug });
-  return result.post;
+  return result.postCollection.items[0];
 };
 
 export const getCategories = async () => {
   const query = gql`
-    query GetCategories {
-      categories {
-        id
-        name
-        slug
-        classification
-        posts(orderBy: publishedAt_ASC) {
-          id
+    query getCategories {
+      categoryCollection {
+        items {
+          name
+          classification
+          slug
+          linkedFrom {
+            postCollection {
+              total
+            }
+          }
         }
       }
     }
   `;
   const result = await makeRequest(query, cacheTime);
-  let data = result.categories.map((category, index) => {
-    return { ...category, count: category.posts.length };
-  });
+  let data = result.categoryCollection.items
+    .map((category, index) => {
+      return { ...category, count: category.linkedFrom.postCollection.total };
+    })
+    .sort((a, b) => b.count - a.count);
 
   return data;
 };
@@ -127,37 +182,44 @@ export const getCategories = async () => {
 export const getCategoryPosts = async (slug) => {
   const query = gql`
     query GetCategoryPosts($slug: String!) {
-      posts(where: { categories_some: { _search: $slug } }) {
-        author {
-          bio
-          name
-          id
-          photo {
+      postCollection(where: { categories: { slug_contains: $slug } }) {
+        items {
+          sys {
+            firstPublishedAt
+          }
+          authorCollection(limit: 3) {
+            items {
+              avatar {
+                fileName
+                url
+                width
+                height
+              }
+              bio
+              name
+            }
+          }
+          slug
+          title
+          excerpt
+          featuredImage {
             url
             fileName
             width
             height
           }
-        }
-        createdAt
-        slug
-        title
-        excerpt
-        featuredImage {
-          url
-          fileName
-          width
-          height
-        }
-        categories {
-          name
-          slug
-          classification
+          categoriesCollection(limit: 10) {
+            items {
+              name
+              slug
+              classification
+            }
+          }
         }
       }
     }
   `;
 
   const result = await makeRequest(query, cacheTime, { slug });
-  return result.posts;
+  return result.postCollection.items;
 };

@@ -2,7 +2,7 @@ type Author = {
   bio: string | null;
   name: string;
   id: string;
-  photo: {
+  avatar: {
     url: string;
     fileName: string;
     width: number;

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['media.graphcms.com', 'media.graphassets.com'],
+    domains: ['graphql.contentful.com', 'images.ctfassets.net'],
   },
 };
 

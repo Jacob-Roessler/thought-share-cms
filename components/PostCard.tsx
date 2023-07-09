@@ -21,15 +21,22 @@ const PostCard = ({ post }: { post: Post }) => {
           <Link href={`/posts/${post.slug}`}>{post.title}</Link>
         </h2>
         <div className="avatar">
-          <div className="w-8 rounded-full hover:scale-[200%]">
-            <Image
-              src={post.author.photo.url}
-              width={post.author.photo.width}
-              height={post.author.photo.height}
-              alt={post.author.photo.fileName}
-            />
-          </div>
-          <p className="ml-1">{post.author.name}</p>
+          {post.authorCollection.items.map((author, index) => {
+            return (
+              <>
+                <div className="w-8 rounded-full hover:scale-[200%]">
+                  <Image
+                    src={author.avatar.url}
+                    width={author.avatar.width}
+                    height={author.avatar.height}
+                    alt={author.avatar.fileName}
+                  />
+                </div>
+                <p className="ml-1">{author.name}</p>
+              </>
+            );
+          })}
+
           <p className="text-right">{moment(post.createdAt).format('MMM DD, YYYY')}</p>
         </div>
         <p className="md:py-2"> {post.excerpt}</p>

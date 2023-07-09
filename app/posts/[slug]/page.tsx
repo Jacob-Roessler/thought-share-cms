@@ -1,6 +1,8 @@
 import { getPost } from '@/services';
 import { Post } from '@/types/Post';
 import Image from 'next/image';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import renderOptions from '@/services/richTextConfig.js';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
@@ -24,7 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <h1 className="mb-5 text-xl md:text-5xl font-bold">{post.title}</h1>
               <p className="mb-5">{post.excerpt}</p>
               <ul className="flex flex-wrap justify-center">
-                {post.categories.map((c, i) => {
+                {post.categoriesCollection.items.map((c, i) => {
                   return (
                     <li key={c.name}>
                       <div className="badge">{c.name}</div>
@@ -36,10 +38,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </div>
-      <article
-        className="prose  py-4  px-10 w-full"
-        dangerouslySetInnerHTML={{ __html: post.content.html }}
-      ></article>
+      <div className="w-full">
+        <article className="prose py-4 px-10 max-w-none">
+          {documentToReactComponents(
+            post.content.json as any,
+            renderOptions(post.content.links as any)
+          )}
+        </article>
+      </div>
     </div>
   );
 }
