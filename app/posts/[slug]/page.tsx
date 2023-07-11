@@ -12,11 +12,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="container mx-auto bg-gray-800 ">
       <div className="bg-black">
-        <div className="hero ">
+        <div className="hero">
           <Image
             width={post.featuredImage.width}
             height={post.featuredImage.height}
-            className="xl:max-w-[70%]"
+            className="xl:max-h-[50vh] object-scale-down"
             src={post.featuredImage.url}
             alt={post.featuredImage.fileName}
           ></Image>

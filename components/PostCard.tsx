@@ -7,15 +7,13 @@ import { Post } from '@/types/Post';
 const PostCard = ({ post }: { post: Post }) => {
   return (
     <div className="card card-compact card-bordered  bg-base-100 shadow-xl my-3">
-      <div className="basis-3/5 flex flex-col justify-center">
-        <Image
-          src={post.featuredImage?.url}
-          width={post.featuredImage?.width}
-          height={post.featuredImage?.height}
-          alt={post.featuredImage?.fileName}
-          className="w-full"
-        />
-      </div>
+      <Image
+        src={post.featuredImage?.url}
+        width={post.featuredImage?.width}
+        height={post.featuredImage?.height}
+        alt={post.featuredImage?.fileName}
+        className="w-full md:h-[25vh] object-scale-down"
+      />
       <div className="card-body overflow-hidden">
         <h2 className="card-title text-blue-500 hover:underline">
           <Link href={`/posts/${post.slug}`}>{post.title}</Link>

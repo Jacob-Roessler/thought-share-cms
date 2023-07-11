@@ -8,7 +8,7 @@ const categories = [
 
 const Header = () => {
   return (
-    <div className="drawer md:px-8 z-50">
+    <div className="sticky top-0 lg:relative drawer md:px-8 z-50">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
@@ -32,7 +32,7 @@ const Header = () => {
           </div>
           <div className="flex-1 px-2 mx-2">
             <Link href="/">
-              <span className="cursor-pointer font-bold text-4xl text-white">Thought Share</span>
+              <span className="cursor-pointer font-bold text-4xl text-white">Bored-core</span>
             </Link>
           </div>
           <div className="flex-none hidden lg:block">
