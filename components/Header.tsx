@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import Link from 'next/link';
 
 const categories = [

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.image-embed {
+  display: block;
+}
+
+.image-embed-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+}

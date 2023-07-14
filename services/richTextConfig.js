@@ -38,6 +38,17 @@ function renderOptions(links) {
           return <a href={`/blog/${entry.slug}`}>{entry.title}</a>;
         }
       },
+      [INLINES.HYPERLINK]: (node) => {
+        // find the entry in the entryMap by ID
+        const { uri } = node.data;
+        const { value } = node.content[0];
+        return (
+          <span className="image-embed">
+            <img src={uri} />
+            <span className="image-embed-text">{value}</span>
+          </span>
+        );
+      },
       [BLOCKS.EMBEDDED_ENTRY]: (node, children) => {
         // find the entry in the entryMap by ID
         const entry = entryBlockMap.get(node.data.target.sys.id);

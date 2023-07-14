@@ -3,6 +3,7 @@ import { Post } from '@/types/Post';
 import Image from 'next/image';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import renderOptions from '@/services/richTextConfig.js';
+import Link from 'next/link';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
@@ -29,7 +30,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 {post.categoriesCollection.items.map((c, i) => {
                   return (
                     <li key={c.name}>
-                      <div className="badge">{c.name}</div>
+                      <Link className="badge hover:text-secondary" href={`/categories/${c.slug}`}>
+                        {c.name}
+                      </Link>
                     </li>
                   );
                 })}
@@ -39,7 +42,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
       </div>
       <div className="w-full">
-        <article className="prose py-4 px-10 max-w-none">
+        <article className="prose prose-img:w-1/2 prose-img:mx-auto py-4 px-10 max-w-none">
           {documentToReactComponents(
             post.content.json as any,
             renderOptions(post.content.links as any)
