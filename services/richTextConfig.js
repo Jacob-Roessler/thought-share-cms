@@ -42,12 +42,26 @@ function renderOptions(links) {
         // find the entry in the entryMap by ID
         const { uri } = node.data;
         const { value } = node.content[0];
-        return (
-          <span className="image-embed">
-            <img src={uri} />
-            <span className="image-embed-text">{value}</span>
-          </span>
-        );
+        const extension = uri.split('.').at(-1);
+        console.log(extension);
+        if (extension === 'mp4' || extension === 'webm') {
+          return (
+            <span className="image-embed">
+              <video controls>
+                <source src={uri} type={`video/${extension}`} />
+                Sorry, your browser does not support videos.
+              </video>
+              <span className="image-embed-text">{value}</span>
+            </span>
+          );
+        } else {
+          return (
+            <span className="image-embed">
+              <img src={uri} />
+              <span className="image-embed-text">{value}</span>
+            </span>
+          );
+        }
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node, children) => {
         // find the entry in the entryMap by ID

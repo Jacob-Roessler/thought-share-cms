@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
       </div>
       <div className="w-full">
-        <article className="prose prose-img:w-1/2 prose-img:mx-auto py-4 px-10 max-w-none">
+        <article className="prose md:prose-img:w-1/2  prose-img:mx-auto py-4 px-10 max-w-none">
           {documentToReactComponents(
             post.content.json as any,
             renderOptions(post.content.links as any)
