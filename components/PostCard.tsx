@@ -15,8 +15,10 @@ const PostCard = ({ post }: { post: Post }) => {
         className="w-full md:h-[25vh] object-scale-down"
       />
       <div className="card-body overflow-hidden">
-        <h2 className="card-title text-blue-500 hover:underline">
-          <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+        <h2 className="card-title text-blue-500">
+          <Link className="hover:underline" href={`/posts/${post.slug}`}>
+            {post.title}
+          </Link>
         </h2>
         <div className="avatar">
           {post.authorCollection.items.map((author, index) => {

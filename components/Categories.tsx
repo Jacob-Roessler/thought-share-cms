@@ -1,6 +1,4 @@
 import Link from 'next/link';
-
-import { Post } from '@/types/Post';
 import { getCategories } from '@/services';
 import { Category } from '@/types/Category';
 
@@ -12,11 +10,13 @@ const Categories = async () => {
       <div className="flex flex-row flex-wrap gap-1">
         {categories?.map((category: Category, i: number) => {
           return (
-            <span key={category.id} className="badge badge-primary hover:scale-105">
-              <Link href={`/categories/${category.slug}`}>
-                {category.name} ({category.count})
-              </Link>
-            </span>
+            <Link
+              key={category.id}
+              className="badge badge-primary hover:scale-105"
+              href={`/categories/${category.slug}`}
+            >
+              {category.name} ({category.count})
+            </Link>
           );
         })}
       </div>
